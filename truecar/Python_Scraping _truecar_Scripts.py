@@ -2,28 +2,36 @@ import mysql.connector
 import requests
 from bs4 import BeautifulSoup
 
+
 my_car = input().lower()
+
 req = requests.get(
     "https://www.truecar.com/used-cars-for-sale/listings/" + my_car + "/"
 )
+
 soup = BeautifulSoup(req.text, "html.parser")
 cards = soup.find_all("div", attrs={"class": "card"})
+
 miless = []
 count = 0
+
 for card in cards:
     count += 1
     miles = card.find("div", attrs={"data-test": "vehicleMileage"})
     #  print(count,miles.text)
     miless.append(miles.text)
+
 # print(miless)
 pricess = []
 count = 0
+
 for card in cards:
     count += 1
     price = card.find("span", attrs={"data-test": "vehicleListingPriceAmount"})
     # print(count,price.text)
     pricess.append(price.text)
 # print(pricess)
+
 find_alles = []
 for i in range(20):
     find_alles.append((pricess[i], miless[i]))
